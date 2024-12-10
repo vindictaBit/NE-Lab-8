@@ -19,5 +19,10 @@ public interface EstudianteDao {
 
     @Query("SELECT * FROM estudiantes ORDER BY nombre ASC")
     List<Estudiante> obtenerEstudiantes();
+
+    // Método para obtener solo los estudiantes activos
+    @Query("SELECT * FROM estudiantes WHERE estado = 'A' ORDER BY nombre ASC")
+    List<Estudiante> obtenerActivos();
 }
+
 

@@ -8,7 +8,8 @@
         android:id="@+id/et_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Estudiante" />
+        android:hint="Nombre del Estudiante"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/btn_agregar"
@@ -16,8 +17,25 @@
         android:layout_height="wrap_content"
         android:text="Agregar Estudiante" />
 
+    <Button
+        android:id="@+id/btnIrTickets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ir a Tickets"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+
+    <Button
+        android:id="@+id/btnIrProgramas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ir a Programas"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_estudiantes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 </LinearLayout>

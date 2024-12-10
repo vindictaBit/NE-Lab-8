@@ -3,6 +3,7 @@ package com.example.myapplication;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.content.Intent;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
@@ -48,6 +49,18 @@ public class MainActivity extends AppCompatActivity {
                 adapter.notifyDataSetChanged();
             });
         }).start();
+
+        Button btnIrTickets = findViewById(R.id.btnIrTickets);
+        btnIrTickets.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, TicketsActivity.class);
+            startActivity(intent);
+        });
+
+        Button btnIrProgramas = findViewById(R.id.btnIrProgramas);
+        btnIrProgramas.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProgramasActivity.class);
+            startActivity(intent);
+        });
 
         // Configura el botón para agregar estudiantes
         btnAgregar.setOnClickListener(view -> {
