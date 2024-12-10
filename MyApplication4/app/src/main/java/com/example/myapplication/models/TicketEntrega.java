@@ -22,7 +22,7 @@ public class TicketEntrega {
     private String numeroTicket;
     private String fecha;
     private String descripcion;
-    private String estado;
+    private String estado = "A"; // Estados: A = Activo, I = Inactivo
 
     @ColumnInfo(name = "estudiante_id")
     private int estudianteId;

@@ -1,0 +1,34 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/et_numero_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Número del Ticket"
+        android:inputType="text"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_fecha"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Fecha (AAAAMMDD)"
+        android:inputType="date"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
+    <EditText
+        android:id="@+id/et_descripcion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Descripción"
+        android:inputType="text"
+        android:padding="8dp"
+        android:textSize="16sp" />
+
+</LinearLayout>

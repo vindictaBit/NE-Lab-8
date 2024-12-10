@@ -1,12 +1,14 @@
 package com.example.myapplication;
 
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -28,6 +30,7 @@ public class TicketsActivity extends AppCompatActivity {
     private TicketEntregaAdapter ticketAdapter;
 
     private EstudianteDatabase db;
+    private List<TicketEntrega> listaTickets = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,17 +51,15 @@ public class TicketsActivity extends AppCompatActivity {
 
         // Configurar RecyclerView
         rvTickets.setLayoutManager(new LinearLayoutManager(this));
-        ticketAdapter = new TicketEntregaAdapter(new ArrayList<>());
+        ticketAdapter = new TicketEntregaAdapter(listaTickets, this::mostrarOpcionesTicket);
         rvTickets.setAdapter(ticketAdapter);
 
-        // Cargar datos en Spinners
+        // Cargar datos en Spinners y lista de tickets
         cargarSpinners();
+        cargarTickets();
 
         // Configurar botón para guardar ticket
         btnGuardarTicket.setOnClickListener(v -> guardarTicket());
-
-        // Cargar tickets existentes
-        cargarTickets();
     }
 
     private void cargarSpinners() {
@@ -103,16 +104,20 @@ public class TicketsActivity extends AppCompatActivity {
             db.ticketEntregaDao().insertar(nuevoTicket);
             runOnUiThread(() -> {
                 Toast.makeText(this, "Ticket guardado", Toast.LENGTH_SHORT).show();
-                cargarTickets(); // Actualizar lista de tickets
-                limpiarCampos(); // Limpiar campos después de guardar
+                cargarTickets();
+                limpiarCampos();
             });
         }).start();
     }
 
     private void cargarTickets() {
         new Thread(() -> {
-            List<TicketEntrega> tickets = db.ticketEntregaDao().obtenerActivos();
-            runOnUiThread(() -> ticketAdapter.setTickets(tickets));
+            List<TicketEntrega> tickets = db.ticketEntregaDao().obtenerTodos();
+            runOnUiThread(() -> {
+                listaTickets.clear();
+                listaTickets.addAll(tickets);
+                ticketAdapter.notifyDataSetChanged();
+            });
         }).start();
     }
 
@@ -122,5 +127,68 @@ public class TicketsActivity extends AppCompatActivity {
         etDescripcion.setText("");
         spEstudiante.setSelection(0);
         spPrograma.setSelection(0);
+    }
+
+    private void mostrarOpcionesTicket(TicketEntrega ticket) {
+        String[] opciones = {"Modificar", "Eliminar Lógicamente", "Inactivar", "Reactivar"};
+        new AlertDialog.Builder(this)
+                .setTitle("Opciones para el Ticket")
+                .setItems(opciones, (dialog, which) -> {
+                    switch (which) {
+                        case 0: // Modificar
+                            mostrarDialogoModificar(ticket);
+                            break;
+                        case 1: // Eliminar Lógicamente
+                            actualizarEstadoTicket(ticket, "*");
+                            break;
+                        case 2: // Inactivar
+                            actualizarEstadoTicket(ticket, "I");
+                            break;
+                        case 3: // Reactivar
+                            actualizarEstadoTicket(ticket, "A");
+                            break;
+                    }
+                })
+                .show();
+    }
+
+    private void mostrarDialogoModificar(TicketEntrega ticket) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Modificar Ticket");
+
+        // Formulario en el diálogo
+        View view = getLayoutInflater().inflate(R.layout.dialogo_modificar_ticket, null);
+        EditText etNumero = view.findViewById(R.id.et_numero_ticket);
+        EditText etFechaMod = view.findViewById(R.id.et_fecha);
+        EditText etDescripcionMod = view.findViewById(R.id.et_descripcion);
+
+        etNumero.setText(ticket.getNumeroTicket());
+        etFechaMod.setText(ticket.getFecha());
+        etDescripcionMod.setText(ticket.getDescripcion());
+
+        builder.setView(view);
+        builder.setPositiveButton("Guardar", (dialog, which) -> {
+            ticket.setNumeroTicket(etNumero.getText().toString());
+            ticket.setFecha(etFechaMod.getText().toString());
+            ticket.setDescripcion(etDescripcionMod.getText().toString());
+
+            new Thread(() -> {
+                db.ticketEntregaDao().actualizar(ticket);
+                runOnUiThread(() -> {
+                    Toast.makeText(this, "Ticket actualizado", Toast.LENGTH_SHORT).show();
+                    cargarTickets();
+                });
+            }).start();
+        });
+        builder.setNegativeButton("Cancelar", null);
+        builder.show();
+    }
+
+    private void actualizarEstadoTicket(TicketEntrega ticket, String nuevoEstado) {
+        ticket.setEstado(nuevoEstado);
+        new Thread(() -> {
+            db.ticketEntregaDao().actualizar(ticket);
+            runOnUiThread(() -> cargarTickets());
+        }).start();
     }
 }

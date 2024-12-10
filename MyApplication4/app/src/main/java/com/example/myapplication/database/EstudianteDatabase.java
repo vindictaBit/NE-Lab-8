@@ -10,7 +10,7 @@ import com.example.myapplication.models.Estudiante;
 import com.example.myapplication.models.ProgramaProfesional;
 import com.example.myapplication.models.TicketEntrega;
 
-@Database(entities = {Estudiante.class, ProgramaProfesional.class, TicketEntrega.class}, version = 3, exportSchema = false)
+@Database(entities = {Estudiante.class, ProgramaProfesional.class, TicketEntrega.class}, version = 5, exportSchema = false)
 public abstract class EstudianteDatabase extends RoomDatabase {
     private static volatile EstudianteDatabase instancia;
 

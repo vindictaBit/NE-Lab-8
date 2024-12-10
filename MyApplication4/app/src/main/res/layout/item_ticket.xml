@@ -15,4 +15,28 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_fecha_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_estudiante_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_programa_ticket"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/tv_estado"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="14sp" />
 </LinearLayout>

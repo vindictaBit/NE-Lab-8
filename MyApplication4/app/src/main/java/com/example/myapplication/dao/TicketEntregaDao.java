@@ -1,6 +1,8 @@
 package com.example.myapplication.dao;
 
 import androidx.room.*;
+
+import com.example.myapplication.models.ProgramaProfesional;
 import com.example.myapplication.models.TicketEntrega;
 
 import java.util.List;
@@ -21,4 +23,7 @@ public interface TicketEntregaDao {
 
     @Query("SELECT * FROM ticket_entrega WHERE numeroTicket = :numeroTicket")
     TicketEntrega buscarPorNumero(String numeroTicket);
+
+    @Query("SELECT * FROM ticket_entrega ORDER BY numeroTicket ASC")
+    List<TicketEntrega> obtenerTodos();
 }

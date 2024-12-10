@@ -20,4 +20,13 @@ public interface ProgramaProfesionalDao {
 
     @Query("SELECT * FROM programa_profesional WHERE estado = 'A' ORDER BY nombre ASC")
     List<ProgramaProfesional> obtenerActivos();
+
+    @Query("SELECT * FROM programa_profesional WHERE nombre LIKE :filtro AND estado = 'A'")
+    List<ProgramaProfesional> buscarPorNombre(String filtro);
+
+    @Query("SELECT * FROM programa_profesional ORDER BY nombre ASC")
+    List<ProgramaProfesional> ordenarPorNombre();
+
+    @Query("SELECT * FROM programa_profesional ORDER BY id ASC")
+    List<ProgramaProfesional> ordenarPorCodigo();
 }

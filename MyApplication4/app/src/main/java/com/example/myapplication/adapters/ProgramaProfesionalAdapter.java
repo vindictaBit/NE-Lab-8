@@ -12,9 +12,15 @@ import java.util.List;
 
 public class ProgramaProfesionalAdapter extends RecyclerView.Adapter<ProgramaProfesionalAdapter.ViewHolder> {
     private List<ProgramaProfesional> programas;
+    private OnItemClickListener listener;
 
-    public ProgramaProfesionalAdapter(List<ProgramaProfesional> programas) {
+    public interface OnItemClickListener {
+        void onItemClick(ProgramaProfesional programa);
+    }
+
+    public ProgramaProfesionalAdapter(List<ProgramaProfesional> programas, OnItemClickListener listener) {
         this.programas = programas;
+        this.listener = listener;
     }
 
     @NonNull
@@ -30,6 +36,12 @@ public class ProgramaProfesionalAdapter extends RecyclerView.Adapter<ProgramaPro
         ProgramaProfesional programa = programas.get(position);
         holder.tvNombre.setText(programa.getNombre());
         holder.tvEstado.setText(programa.getEstado());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(programa);
+            }
+        });
     }
 
     @Override
@@ -47,3 +59,4 @@ public class ProgramaProfesionalAdapter extends RecyclerView.Adapter<ProgramaPro
         }
     }
 }
+

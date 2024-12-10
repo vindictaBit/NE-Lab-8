@@ -14,11 +14,16 @@ import com.example.myapplication.models.Estudiante;
 import java.util.List;
 
 public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.ViewHolder> {
-
     private List<Estudiante> estudiantes;
+    private OnItemClickListener listener;
 
-    public EstudianteAdapter(List<Estudiante> estudiantes) {
+    public interface OnItemClickListener {
+        void onItemClick(Estudiante estudiante);
+    }
+
+    public EstudianteAdapter(List<Estudiante> estudiantes, OnItemClickListener listener) {
         this.estudiantes = estudiantes;
+        this.listener = listener;
     }
 
     @NonNull
@@ -34,6 +39,12 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.Vi
         Estudiante estudiante = estudiantes.get(position);
         holder.tvNombre.setText(estudiante.getNombre());
         holder.tvEstado.setText(estudiante.getEstado());
+
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(estudiante);
+            }
+        });
     }
 
     @Override
@@ -41,14 +52,8 @@ public class EstudianteAdapter extends RecyclerView.Adapter<EstudianteAdapter.Vi
         return estudiantes.size();
     }
 
-    public void actualizarLista(List<Estudiante> nuevosEstudiantes) {
-        estudiantes = nuevosEstudiantes;
-        notifyDataSetChanged();
-    }
-
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvNombre;
-        TextView tvEstado;
+        TextView tvNombre, tvEstado;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -5,33 +5,34 @@
     android:padding="16dp">
 
     <SearchView
-        android:id="@+id/searchViewProgramas"
+        android:id="@+id/searchViewEstudiantes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:queryHint="Buscar Programas" />
+        android:queryHint="Buscar Estudiantes" />
 
     <Spinner
-        android:id="@+id/spinnerOrdenProgramas"
+        android:id="@+id/spinnerOrdenEstudiantes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:entries="@array/opciones_orden" />
+        android:entries="@array/opciones_orden"
+        android:minHeight="48dp" />
 
     <EditText
-        android:id="@+id/et_nombre_programa"
+        android:id="@+id/et_nombre"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Nombre del Programa"
+        android:hint="Nombre del Estudiante"
         android:minHeight="48dp"
         android:padding="8dp" />
 
     <Button
-        android:id="@+id/btn_guardar_programa"
+        android:id="@+id/btn_guardar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Guardar Programa" />
+        android:text="Guardar Estudiante" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_programas"
+        android:id="@+id/rv_estudiantes"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
